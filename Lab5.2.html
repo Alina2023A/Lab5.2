@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Погода</title>
+</head>
+<body>
+
+  <button onclick="getWeather()">Показати погоду</button>
+  <div id="weatherData"></div>
+
+  <script>
+    function getWeather() {
+      const apiKey = '64cc585dd3e34deb09f276f9fb92e764'; // Встановіть ваш API-ключ OpenWeatherMap тут
+      const cityName = 'Netherlands'; // Можете змінити на інше місто за бажанням
+
+      // URL для отримання даних про погоду
+      const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`;
+
+      // Використовуйте функцію fetch для отримання даних
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          // Витягніть температуру, вологість і швидкість вітру з отриманих даних
+          const temperature = data.main.temp;
+          const humidity = data.main.humidity;
+          const windSpeed = data.wind.speed;
+
+          // Відобразіть дані на веб-сторінці
+          const weatherDataElement = document.getElementById('weatherData');
+          weatherDataElement.innerHTML = `
+            <h2>Погода в ${cityName}</h2>
+            <p>Температура: ${temperature} K</p>
+            <p>Вологість: ${humidity}%</p>
+            <p>Швидкість вітру: ${windSpeed} м/с</p>
+          `;
+        })
+        .catch(error => console.error('Error fetching weather data:', error));
+    }
+  </script>
+
+</body>
+</html>
